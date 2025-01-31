@@ -5,7 +5,6 @@ import os
 class BiasDetector:
     def __init__(self):
         self.nlp = spacy.load("en_core_web_sm")
-        # List of potentially biased terms and their neutral replacements
         self.bias_words = {
             "he": "they",
             "she": "they",
@@ -36,13 +35,12 @@ class BiasDetector:
         return {"biases_found": biases_found, "refined_text": text}
 
 
-# Global instance for easy import (in other files)
 bias_detector = BiasDetector()
 
 def check_bias(text):
     return bias_detector.detect_bias(text)
 
-# Example usage
+
 if __name__ == "__main__":
     sample_text = "The chairman said that manpower is essential for mankind."
     result = bias_detector.analyze_text(sample_text)

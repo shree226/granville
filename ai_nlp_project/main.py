@@ -1,21 +1,44 @@
-
-
+import os
+import json
+import requests
+import streamlit as st
 from modules.content_generator import ContentGenerator
 from modules.content_refiner import ContentRefiner
-from modules.bias_detector import BiasDetector
 
-api_key = 'AIzaSyAvdw9a1RiOTpaVEfzXU5edP3e83hcf_8E' # Replace with your actual API key
+
+def load_config():
+    config_path = os.getenv('CONFIG_PATH', '/workspaces/granville/ai_nlp_project/config.json')
+    with open(config_path) as f:
+        return json.load(f)
+
+config = load_config()
+
+api_key = 'AIzaSyAvdw9a1RiOTpaVEfzXU5edP3e83hcf_8E'  
+if api_key is None:
+    raise ValueError("API key is missing in config.json")
+
 generator = ContentGenerator(api_key)
 refiner = ContentRefiner()
-bias_detector = BiasDetector()
 
-prompt = "Explain the importance of photosynthesis for high school students."
-generated_content = generator.generate_content(prompt)
-refined_content = refiner.refine_content(generated_content)
-bias_checked_content = bias_detector.analyze_text(refined_content)
+st.title("AI Educational Content Generator")
 
-print("Generated Content:\n", generated_content)
-print("\nRefined Content:\n", refined_content)
-print("\nBiases Detected:", bias_checked_content["biases_found"])
-print("\nFinal Bias-Free Content:\n", bias_checked_content["refined_text"])
 
+topic_input = st.text_input("Enter the topic:")
+grade_level_input = st.selectbox(
+    "Select the grade level:", 
+    ["Toddler", "Middle School", "High School", "Undergraduate", "Graduate"]
+)
+
+if st.button("Generate"):
+    with st.spinner("Generating content..."):
+        prompt = f"Generate educational content about {topic_input} for {grade_level_input}."
+        content = generator.generate_content(prompt)
+
+    if config.get('refine_content', False): 
+        refined_content = refiner.refine_content(content)
+    else:
+        refined_content = content
+
+    
+    st.subheader("Generated Content")  
+    st.text(refined_content)

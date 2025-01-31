@@ -2,7 +2,7 @@ import re
 import nltk
 from nltk.tokenize import sent_tokenize
 
-# Download necessary NLTK data (only once)
+
 nltk.download('punkt')
 
 class ContentRefiner:
@@ -11,8 +11,8 @@ class ContentRefiner:
 
     def clean_text(self, text):
         """Removes unnecessary spaces, multiple newlines, and special characters."""
-        text = re.sub(r'\s+', ' ', text)  # Remove extra spaces
-        text = re.sub(r'\n+', '\n', text)  # Remove multiple newlines
+        text = re.sub(r'\s+', ' ', text)  
+        text = re.sub(r'\n+', '\n', text)  
         return text.strip()
 
     def improve_readability(self, text):
@@ -23,7 +23,7 @@ class ContentRefiner:
 
     def simplify_sentence(self, sentence):
         """A placeholder for sentence simplification (can be expanded later)."""
-        return sentence  # Add actual NLP-based simplifications if needed
+        return sentence 
 
     def refine_content(self, text):
         """Applies all refinement steps."""
@@ -31,7 +31,7 @@ class ContentRefiner:
         text = self.improve_readability(text)
         return text
 
-# Example usage
+
 if __name__ == "__main__":
     refiner = ContentRefiner()
     sample_text = "  Photosynthesis is the process where plants make food.   It uses sunlight, carbon dioxide, and water.\n\n\n It occurs in chloroplasts.  "
