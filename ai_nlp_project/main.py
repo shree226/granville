@@ -6,10 +6,21 @@ from modules.content_generator import ContentGenerator
 from modules.content_refiner import ContentRefiner
 
 
+
+    
 def load_config():
-    config_path = os.getenv('CONFIG_PATH', '/workspaces/granville/ai_nlp_project/config.json')
-    with open(config_path) as f:
-        return json.load(f)
+    # Correct path to the config.json file in the modules folder
+    config_path = os.path.join(os.path.dirname(__file__), 'modules', 'config.json')
+    try:
+        with open(config_path) as f:
+            return json.load(f)
+    except FileNotFoundError:
+        st.error("config.json file not found.")
+        return {}
+    except json.JSONDecodeError:
+        st.error("Error decoding config.json file.")
+        return {}
+
 
 config = load_config()
 
