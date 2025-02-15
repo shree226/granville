@@ -5,8 +5,6 @@ import streamlit as st
 from modules.content_generator import ContentGenerator
 from modules.content_refiner import ContentRefiner
 
-
-
     
 def load_config():
     # Correct path to the config.json file in the modules folder
@@ -53,3 +51,4 @@ if st.button("Generate"):
     
     st.subheader("Generated Content")  
     st.text(refined_content)
+#done
